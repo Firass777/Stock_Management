@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { 
@@ -18,56 +19,88 @@ import { Bar, Pie } from "react-chartjs-2";
 import "chart.js/auto";
 
 function Admindb() {
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
-  const [totalProducts, setTotalProducts] = useState(0);
-  const [lowStockItems] = useState(15);
-  const [recentActivities] = useState([
-    "New shipment of 50 units received for Product A",
-    "User John Doe updated inventory levels",
-    "Low stock alert triggered for Product B",
-    "New user Manager1 created with Manager role"
+  const [dashboardData, setDashboardData] = useState({
+    totalProducts: 5,
+    lowStockItems: 2,
+    categories: 4,
+    activeUsers: 0
+  });
+  const [stockMovementData, setStockMovementData] = useState(null);
+  const [categoryDistributionData, setCategoryDistributionData] = useState(null);
+  const [criticalStockItems, setCriticalStockItems] = useState([]);
+  const [recentActivities, setRecentActivities] = useState([
+    "New shipment received (5 items)",
+    "User activity logged",
+    "Low stock alert triggered for 2 items",
+    "System maintenance completed"
   ]);
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setTotalProducts(1250);
-    }, 1000);
+    AOS.init({ duration: 1000 });
+    fetchDashboardData();
   }, []);
 
-  const stockLevelData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "Stock Movements",
-        backgroundColor: "#3B82F6",
-        borderColor: "#3B82F6",
-        borderWidth: 1,
-        hoverBackgroundColor: "#2563EB",
-        hoverBorderColor: "#2563EB",
-        data: [1200, 1100, 900, 1300, 1500, 1400],
-      },
-    ],
-  };
+  const fetchDashboardData = async () => {
+    try {
+      const [
+        stockMovementResponse,
+        categoryResponse,
+        criticalStockResponse
+      ] = await Promise.all([
+        axios.get('http://127.0.0.1:8000/api/inventory/dashboard/stock-movement'),
+        axios.get('http://127.0.0.1:8000/api/inventory/dashboard/category-distribution'),
+        axios.get('http://127.0.0.1:8000/api/inventory/dashboard/critical-stock')
+      ]);
 
-  const categoryDistributionData = {
-    labels: ["Electronics", "Hardware", "Office", "Tools", "Safety"],
-    datasets: [
-      {
-        data: [35, 25, 20, 15, 5],
-        backgroundColor: ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"],
-        hoverBackgroundColor: ["#2563EB", "#059669", "#D97706", "#DC2626", "#7C3AED"],
-      },
-    ],
+      // Process stock movement data
+      const stockMonths = stockMovementResponse.data.data.map(item => item.month);
+      const stockValues = stockMovementResponse.data.data.map(item => parseInt(item.total));
+      
+      setStockMovementData({
+        labels: stockMonths,
+        datasets: [
+          {
+            label: "Stock Movements",
+            backgroundColor: "#3B82F6",
+            borderColor: "#3B82F6",
+            borderWidth: 1,
+            hoverBackgroundColor: "#2563EB",
+            hoverBorderColor: "#2563EB",
+            data: stockValues,
+          },
+        ],
+      });
+
+      // Process category distribution data
+      const categoryLabels = categoryResponse.data.data.map(item => item.category);
+      const categoryValues = categoryResponse.data.data.map(item => item.count);
+      
+      setCategoryDistributionData({
+        labels: categoryLabels,
+        datasets: [
+          {
+            data: categoryValues,
+            backgroundColor: ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"],
+            hoverBackgroundColor: ["#2563EB", "#059669", "#D97706", "#DC2626", "#7C3AED"],
+          },
+        ],
+      });
+
+      // Process critical stock items
+      setCriticalStockItems(criticalStockResponse.data.data.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        threshold: item.threshold
+      })));
+
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    }
   };
 
   return (
     <div className="flex flex-col h-full bg-gray-50">
       <div className="flex flex-1">
-        {/* Sidebar - Dark Theme */}
         <aside className="w-64 bg-gray-900 text-gray-100 flex flex-col">
           <div className="p-6 border-b border-gray-800">
             <h1 className="text-2xl font-bold flex items-center">
@@ -124,9 +157,7 @@ function Admindb() {
           </div>
         </aside>
 
-        {/* Main Content */}
         <main className="flex-1 p-6 overflow-auto min-h-screen">
-          {/* Header */}
           <div className="flex justify-between items-center mb-8">
             <div>
               <h2 className="text-2xl font-bold text-gray-800">Inventory Overview</h2>
@@ -145,13 +176,12 @@ function Admindb() {
             </div>
           </div>
 
-          {/* Stats Cards - Modern Design */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div data-aos="fade-up" className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex justify-between items-start">
                 <div>
                   <p className="text-sm font-medium text-gray-500">Total Products</p>
-                  <h3 className="text-2xl font-bold mt-1">{totalProducts}</h3>
+                  <h3 className="text-2xl font-bold mt-1">{dashboardData.totalProducts}</h3>
                 </div>
                 <div className="p-3 rounded-lg bg-blue-50 text-blue-600">
                   <FaBoxes />
@@ -166,7 +196,7 @@ function Admindb() {
               <div className="flex justify-between items-start">
                 <div>
                   <p className="text-sm font-medium text-gray-500">Low Stock Items</p>
-                  <h3 className="text-2xl font-bold mt-1">{lowStockItems}</h3>
+                  <h3 className="text-2xl font-bold mt-1">{dashboardData.lowStockItems}</h3>
                 </div>
                 <div className="p-3 rounded-lg bg-red-50 text-red-600">
                   <FaExclamationTriangle />
@@ -181,14 +211,14 @@ function Admindb() {
               <div className="flex justify-between items-start">
                 <div>
                   <p className="text-sm font-medium text-gray-500">Categories</p>
-                  <h3 className="text-2xl font-bold mt-1">5</h3>
+                  <h3 className="text-2xl font-bold mt-1">{dashboardData.categories}</h3>
                 </div>
                 <div className="p-3 rounded-lg bg-green-50 text-green-600">
                   <FaClipboardList />
                 </div>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-100">
-                <p className="text-xs text-gray-500">5 active categories</p>
+                <p className="text-xs text-gray-500">{dashboardData.categories} active categories</p>
               </div>
             </div>
 
@@ -196,7 +226,7 @@ function Admindb() {
               <div className="flex justify-between items-start">
                 <div>
                   <p className="text-sm font-medium text-gray-500">Active Users</p>
-                  <h3 className="text-2xl font-bold mt-1">24</h3>
+                  <h3 className="text-2xl font-bold mt-1">{dashboardData.activeUsers}</h3>
                 </div>
                 <div className="p-3 rounded-lg bg-purple-50 text-purple-600">
                   <FaUsersCog />
@@ -208,53 +238,60 @@ function Admindb() {
             </div>
           </div>
 
-          {/* Charts Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {/* Stock Movement Chart */}
             <div data-aos="fade-up" className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <h3 className="text-lg font-semibold mb-4">Stock Movement (Last 6 Months)</h3>
+              <h3 className="text-lg font-semibold mb-4">Stock Movement</h3>
               <div className="h-72">
-                <Bar 
-                  data={stockLevelData} 
-                  options={{ 
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        position: 'top',
+                {stockMovementData ? (
+                  <Bar 
+                    data={stockMovementData} 
+                    options={{ 
+                      maintainAspectRatio: false,
+                      plugins: {
+                        legend: {
+                          position: 'top',
+                        },
                       },
-                    },
-                    scales: {
-                      y: {
-                        beginAtZero: true
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
                       }
-                    }
-                  }} 
-                />
+                    }} 
+                  />
+                ) : (
+                  <div className="h-full flex items-center justify-center text-gray-500">
+                    No stock movement data available
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Category Distribution Chart */}
             <div data-aos="fade-up" className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <h3 className="text-lg font-semibold mb-4">Category Distribution</h3>
               <div className="h-72">
-                <Pie 
-                  data={categoryDistributionData} 
-                  options={{ 
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        position: 'right',
-                      },
-                    }
-                  }} 
-                />
+                {categoryDistributionData ? (
+                  <Pie 
+                    data={categoryDistributionData} 
+                    options={{ 
+                      maintainAspectRatio: false,
+                      plugins: {
+                        legend: {
+                          position: 'right',
+                        },
+                      }
+                    }} 
+                  />
+                ) : (
+                  <div className="h-full flex items-center justify-center text-gray-500">
+                    No category distribution data available
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Recent Activity & Low Stock Items */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Recent Activity */}
             <div data-aos="fade-up" className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">Recent Activity</h3>
@@ -266,14 +303,13 @@ function Admindb() {
                     <div className="flex-shrink-0 h-2 w-2 mt-2 rounded-full bg-blue-500"></div>
                     <div className="ml-3">
                       <p className="text-sm">{activity}</p>
-                      <p className="text-xs text-gray-500 mt-1">2 hours ago</p>
+                      <p className="text-xs text-gray-500 mt-1">Just now</p>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Low Stock Items */}
             <div data-aos="fade-up" className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">Critical Stock Items</h3>
@@ -289,21 +325,13 @@ function Admindb() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm font-medium">Industrial Bolts (5mm)</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-red-600">8</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm">50</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm font-medium">Safety Gloves (L)</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-red-600">12</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm">100</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm font-medium">Power Drill X200</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-yellow-600">3</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm">10</td>
-                    </tr>
+                    {criticalStockItems.map((item, index) => (
+                      <tr key={index}>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm font-medium">{item.name}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-red-600">{item.quantity}</td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm">{item.threshold}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\CategoryStockLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
@@ -42,7 +44,7 @@ class InventoryController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'error' => $e->getMessage(),
+                'error' => 'Failed to fetch inventory items',
             ], 500);
         }
     }
@@ -73,7 +75,7 @@ class InventoryController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'error' => $e->getMessage(),
+                'error' => 'Failed to create inventory item',
             ], 500);
         }
     }
@@ -122,7 +124,7 @@ class InventoryController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'error' => $e->getMessage(),
+                'error' => 'Failed to update inventory item',
             ], 500);
         }
     }
@@ -142,6 +144,142 @@ class InventoryController extends Controller
                 'success' => false,
                 'error' => 'Item not found',
             ], 404);
+        }
+    }
+
+    public function dashboardStats()
+    {
+        try {
+            $totalProducts = Inventory::count();
+            $categories = Inventory::distinct('category')->count('category');
+            
+            $lowStockItems = Inventory::join('category_stock_levels', 'inventories.category', '=', 'category_stock_levels.category')
+                ->whereColumn('inventories.quantity', '<', 'category_stock_levels.min_stock_level')
+                ->count();
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'totalProducts' => $totalProducts,
+                    'categories' => $categories,
+                    'lowStockItems' => $lowStockItems,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch dashboard stats: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function stockMovement()
+    {
+        try {
+            $data = Inventory::selectRaw('MONTH(created_at) as month, SUM(quantity) as total')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get()
+                ->map(function($item) {
+                    return [
+                        'month' => date('M', mktime(0, 0, 0, $item->month, 1)),
+                        'total' => $item->total
+                    ];
+                });
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch stock movement data: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function categoryDistribution()
+    {
+        try {
+            $data = Inventory::selectRaw('category, COUNT(*) as count')
+                ->groupBy('category')
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch category distribution data: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function criticalStock()
+    {
+        try {
+            $items = Inventory::join('category_stock_levels', 'inventories.category', '=', 'category_stock_levels.category')
+                ->whereColumn('inventories.quantity', '<', 'category_stock_levels.min_stock_level')
+                ->select(
+                    'inventories.name',
+                    'inventories.quantity',
+                    'category_stock_levels.min_stock_level as threshold'
+                )
+                ->limit(5)
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $items
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch critical stock data: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function totalQuantity()
+    {
+        try {
+            $totalQuantity = Inventory::sum('quantity');
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'totalQuantity' => $totalQuantity
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch total quantity: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function totalStockValue()
+    {
+        try {
+            $totalValue = Inventory::selectRaw('SUM(quantity * unit_price) as total_value')
+                ->first()
+                ->total_value;
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'totalStockValue' => $totalValue
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch total stock value: ' . $e->getMessage(),
+            ], 500);
         }
     }
 }

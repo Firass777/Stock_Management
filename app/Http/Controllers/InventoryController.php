@@ -225,6 +225,7 @@ class InventoryController extends Controller
                 ->whereColumn('inventories.quantity', '<', 'category_stock_levels.min_stock_level')
                 ->select(
                     'inventories.name',
+                    'inventories.category',
                     'inventories.quantity',
                     'category_stock_levels.min_stock_level as threshold'
                 )
@@ -279,6 +280,48 @@ class InventoryController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch total stock value: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function inventorySummary()
+    {
+        try {
+            $summary = Inventory::selectRaw('
+                COUNT(*) as total_items,
+                SUM(quantity) as total_quantity,
+                SUM(quantity * unit_price) as total_value,
+                COUNT(DISTINCT category) as categories_count
+            ')->first();
+
+            return response()->json([
+                'success' => true,
+                'data' => $summary
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch inventory summary: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function inventoryDetails()
+    {
+        try {
+            $details = Inventory::select('name', 'category', 'quantity', 'unit_price')
+                ->orderBy('category')
+                ->orderBy('name')
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $details
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch inventory details: ' . $e->getMessage(),
             ], 500);
         }
     }

@@ -12,7 +12,7 @@ import Admindb from './components/Admin/Admindb';
 import Users from "./components/Admin/Users";
 import Inventory from "./components/Admin/Inventory";
 import Reports from "./components/Admin/Reports";
-
+import Alerts from "./components/Admin/Alert";
 
 import Managerdb from "./components/Manger/Mangerdb";
 
@@ -62,6 +62,7 @@ function App() {
           <Route path="/users" element={<Users />} /> 
           <Route path="/inventory" element={<Inventory />} /> 
           <Route path="/reports" element={<Reports />} /> 
+          <Route path="/alerts" element={<Alerts />} /> 
 
 
 

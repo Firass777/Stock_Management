@@ -334,15 +334,15 @@ const Users = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/users" className="flex items-center p-3 rounded-lg bg-blue-700 text-white">
-                  <FaUsersCog className="mr-3" />
-                  User Management
-                </Link>
-              </li>
-              <li>
                 <Link to="/reports" className="flex items-center p-3 rounded-lg hover:bg-gray-800">
                   <FaChartLine className="mr-3" />
                   Reports
+                </Link>
+              </li>
+              <li>
+                <Link to="/users" className="flex items-center p-3 rounded-lg bg-blue-700 text-white">
+                  <FaUsersCog className="mr-3" />
+                  User Management
                 </Link>
               </li>
               <li>

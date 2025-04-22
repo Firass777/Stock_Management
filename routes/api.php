@@ -8,7 +8,6 @@ use App\Http\Controllers\CategoryStockLevelController;
 
 Route::post('/register', [UsersController::class, 'register']);
 Route::post('/login', [UsersController::class, 'login']);
-
 Route::post('/logout', [UsersController::class, 'logout']);
 
 Route::get('/users', [UsersController::class, 'index']);

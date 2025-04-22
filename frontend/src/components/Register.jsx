@@ -17,7 +17,7 @@ const Register = () => {
     setSuccess("");
 
     try {
-      const response = await axios.post("http assortment://127.0.0.1:8000/api/register", {
+      const response = await axios.post("http://127.0.0.1:8000/api/register", {
         name,
         email,
         password,
@@ -26,17 +26,23 @@ const Register = () => {
 
       console.log("Response:", response.data);
       setSuccess("Registration successful! Please log in.");
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       if (err.response) {
         console.error("Error response:", err.response);
         if (err.response.data.errors) {
-          setError(err.response.data.errors.email || "Registration failed. Please try again.");
+          const errors = err.response.data.errors;
+          setError(
+            errors.email?.[0] ||
+              errors.password?.[0] ||
+              "Registration failed. Please check your input."
+          );
         } else {
           setError(err.response.data.message || "Registration failed");
         }
       } else {
-        setError("Something went wrong.");
+        setError("Something went wrong. Please try again.");
       }
     }
   };

@@ -16,26 +16,26 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
             'role' => 'required|string|in:Admin,Manager,Stock Keeper,Viewer',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'errors' => $validator->errors()
             ], 422);
         }
-    
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
-    
+
         $token = JWTAuth::fromUser($user);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'User registered successfully',
@@ -57,9 +57,9 @@ class UsersController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-    
+
         $user = User::where('email', $request->email)->first();
-    
+
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -71,9 +71,9 @@ class UsersController extends Controller
                 'error' => 'Incorrect password'
             ], 401);
         }
-    
+
         $token = JWTAuth::fromUser($user);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Login successful',
@@ -87,16 +87,16 @@ class UsersController extends Controller
     {
         try {
             $token = JWTAuth::getToken();
-    
+
             if (!$token) {
                 return response()->json([
                     'success' => false,
                     'error' => 'Token not provided'
                 ], 401);
             }
-    
+
             JWTAuth::invalidate($token);
-    
+
             return response()->json([
                 'success' => true,
                 'message' => 'Logged out successfully'
@@ -112,7 +112,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $query = User::query();
-        
+
         if ($request->has('search')) {
             $search = $request->input('search');
             $query->where(function($q) use ($search) {
@@ -124,7 +124,7 @@ class UsersController extends Controller
 
         $perPage = $request->input('per_page', 10);
         $users = $query->paginate($perPage);
-        
+
         return response()->json([
             'success' => true,
             'data' => $users->items(),
@@ -140,7 +140,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        
+
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -159,7 +159,7 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
             'role' => 'required|string|in:Admin,Manager,Stock Keeper,Viewer',
         ]);
 
@@ -187,7 +187,7 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        
+
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -198,7 +198,7 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|email|unique:users,email,'.$user->id,
-            'password' => 'sometimes|string|min:8|confirmed',
+            'password' => 'sometimes|string|min:8',
             'role' => 'sometimes|string|in:Admin,Manager,Stock Keeper,Viewer',
         ]);
 
@@ -226,7 +226,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        
+
         if (!$user) {
             return response()->json([
                 'success' => false,

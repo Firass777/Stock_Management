@@ -578,13 +578,13 @@ const MInventory = () => {
               </Link>
             </li>
             <li>
-              <Link to="/alerts" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
+              <Link to="/malerts" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
                 <FaBell className="mr-3" />
                 Alerts
               </Link>
             </li>
             <li>
-              <Link to="/logs" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
+              <Link to="/mlogs" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
                 <FaHistory className="mr-3" />
                 Activity Logs
               </Link>

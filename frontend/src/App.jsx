@@ -18,6 +18,7 @@ import ActivityLog from "./components/Admin/activitylog";
 import Managerdb from "./components/Manger/Mangerdb";
 import MInventory from "./components/Manger/MInventory";
 import MReports from "./components/Manger/MRepots";
+import MAlerts from "./components/Manger/MAlerts";
 
 import StockKeeperdb from "./components/StockKeeper/StockKeeperdb";
 
@@ -73,6 +74,7 @@ function App() {
           <Route path="/mangerdb" element={<Managerdb />} /> 
           <Route path="/minventory" element={<MInventory />} /> 
           <Route path="/mreports" element={<MReports />} /> 
+          <Route path="/malerts" element={<MAlerts />} /> 
 
           <Route path="/stockkeeperdb" element={<StockKeeperdb />} /> 
 

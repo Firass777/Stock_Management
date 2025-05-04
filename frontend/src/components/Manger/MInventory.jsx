@@ -566,13 +566,13 @@ const MInventory = () => {
               </Link>
             </li>
             <li>
-              <Link to="/inventory" className="flex items-center p-3 rounded-lg bg-emerald-700 text-white">
+              <Link to="/minventory" className="flex items-center p-3 rounded-lg bg-emerald-700 text-white">
                 <FaClipboardList className="mr-3" />
                 Inventory
               </Link>
             </li>
             <li>
-              <Link to="/reports" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
+              <Link to="/mreports" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
                 <FaChartLine className="mr-3" />
                 Reports
               </Link>

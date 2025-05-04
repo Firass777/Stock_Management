@@ -15,7 +15,9 @@ Route::post('/users', [UsersController::class, 'store']);
 Route::get('/users/{id}', [UsersController::class, 'show']);
 Route::put('/users/{id}', [UsersController::class, 'update']);
 Route::delete('/users/{id}', [UsersController::class, 'destroy']);
-Route::get('/users/search', [UsersController::class, 'search']);
+
+
+Route::get('/inventory/recent-logs', [InventoryController::class, 'recentLogs']);
 
 Route::get('/inventory', [InventoryController::class, 'index']);
 Route::post('/inventory', [InventoryController::class, 'store']);
@@ -36,3 +38,5 @@ Route::get('/category-levels', [CategoryStockLevelController::class, 'index']);
 Route::post('/category-levels', [CategoryStockLevelController::class, 'store']);
 Route::put('/category-levels/{id}', [CategoryStockLevelController::class, 'update']);
 Route::delete('/category-levels/{id}', [CategoryStockLevelController::class, 'destroy']);
+
+Route::get('/category-stock-levels/recent-logs', [CategoryStockLevelController::class, 'recentLogs']);

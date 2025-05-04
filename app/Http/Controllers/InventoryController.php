@@ -325,4 +325,31 @@ class InventoryController extends Controller
             ], 500);
         }
     }
+
+    public function recentLogs()
+    {
+        try {
+            $logs = Inventory::orderBy('created_at', 'desc')
+                ->take(2)
+                ->get()
+                ->map(function ($item) {
+                    return [
+                        'action' => 'Created inventory item',
+                        'details' => "Name: {$item->name}, Category: {$item->category}, Quantity: {$item->quantity}",
+                        'created_at' => $item->created_at,
+                        'user_name' => 'System' // Adjust based on your user tracking
+                    ];
+                });
+
+            return response()->json([
+                'success' => true,
+                'data' => $logs
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch recent inventory logs: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 }

@@ -101,4 +101,31 @@ class CategoryStockLevelController extends Controller
             ], 404);
         }
     }
+
+    public function recentLogs()
+    {
+        try {
+            $logs = CategoryStockLevel::orderBy('created_at', 'desc')
+                ->take(2)
+                ->get()
+                ->map(function ($level) {
+                    return [
+                        'action' => 'Created category stock level',
+                        'details' => "Category: {$level->category}, Min: {$level->min_stock_level}, Max: {$level->max_stock_level}",
+                        'created_at' => $level->created_at,
+                        'user_name' => 'System'
+                    ];
+                });
+
+            return response()->json([
+                'success' => true,
+                'data' => $logs
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch recent category stock level logs: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 }

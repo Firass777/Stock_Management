@@ -13,6 +13,7 @@ import Users from "./components/Admin/Users";
 import Inventory from "./components/Admin/Inventory";
 import Reports from "./components/Admin/Reports";
 import Alerts from "./components/Admin/Alert";
+import ActivityLog from "./components/Admin/activitylog";
 
 import Managerdb from "./components/Manger/Mangerdb";
 
@@ -63,6 +64,7 @@ function App() {
           <Route path="/inventory" element={<Inventory />} /> 
           <Route path="/reports" element={<Reports />} /> 
           <Route path="/alerts" element={<Alerts />} /> 
+          <Route path="/logs" element={<ActivityLog />} /> 
 
 
 

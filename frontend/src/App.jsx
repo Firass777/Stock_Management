@@ -16,6 +16,7 @@ import Alerts from "./components/Admin/Alert";
 import ActivityLog from "./components/Admin/activitylog";
 
 import Managerdb from "./components/Manger/Mangerdb";
+import MInventory from "./components/Manger/MInventory";
 
 import StockKeeperdb from "./components/StockKeeper/StockKeeperdb";
 
@@ -69,6 +70,7 @@ function App() {
 
 
           <Route path="/mangerdb" element={<Managerdb />} /> 
+          <Route path="/minventory" element={<MInventory />} /> 
 
           <Route path="/stockkeeperdb" element={<StockKeeperdb />} /> 
 

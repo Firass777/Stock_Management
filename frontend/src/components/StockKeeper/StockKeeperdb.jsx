@@ -117,7 +117,7 @@ function StockKeeperdb() {
 
   return (
     <div className="flex min-h-screen bg-indigo-50">
-      <aside className="w-64 bg-indigo-900 text-indigo-100 flex-shrink-0 fixed h-full">
+      <aside className="fixed w-64 h-screen bg-indigo-900 text-indigo-100 flex flex-col">
         <div className="p-6 border-b border-indigo-800">
           <h1 className="text-2xl font-bold flex items-center">
             <FaWarehouse className="mr-2" />
@@ -128,13 +128,13 @@ function StockKeeperdb() {
         <nav className="flex-1 overflow-y-auto">
           <ul className="p-4 space-y-2">
             <li>
-              <Link to="/stockdb" className="flex items-center p-3 rounded-lg bg-indigo-700 text-white">
+              <Link to="/stockdb" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
                 <FaBoxes className="mr-3" />
                 Dashboard
               </Link>
             </li>
             <li>
-              <Link to="/sinventory" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
+              <Link to="/sinventory" className="flex items-center p-3 rounded-lg bg-indigo-700 text-white">
                 <FaClipboardList className="mr-3" />
                 Inventory
               </Link>

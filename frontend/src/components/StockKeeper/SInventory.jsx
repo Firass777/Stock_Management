@@ -564,19 +564,19 @@ const SInventory = () => {
               </Link>
             </li>
             <li>
-              <Link to="/inventory" className="flex items-center p-3 rounded-lg bg-indigo-700 text-white">
+              <Link to="/sinventory" className="flex items-center p-3 rounded-lg bg-indigo-700 text-white">
                 <FaClipboardList className="mr-3" />
                 Inventory
               </Link>
             </li>
             <li>
-              <Link to="/alerts" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
+              <Link to="/salerts" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
                 <FaBell className="mr-3" />
                 Alerts
               </Link>
             </li>
             <li>
-              <Link to="/logs" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
+              <Link to="/slogs" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
                 <FaHistory className="mr-3" />
                 Activity Logs
               </Link>

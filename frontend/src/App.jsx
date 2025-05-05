@@ -24,9 +24,12 @@ import MLogs from "./components/Manger/Mlogs";
 import StockKeeperdb from "./components/StockKeeper/StockKeeperdb";
 import SAlerts from "./components/StockKeeper/SAlerts";
 import SInventory from "./components/StockKeeper/SInventory";
+import SLogs from "./components/StockKeeper/SLogs";
 
 import Viewerdb from "./components/Viewer/Viewerdb";
-import SLogs from "./components/StockKeeper/SLogs";
+import VInventory from "./components/Viewer/Inventory";
+import VLogs from "./components/Viewer/ActivityLog";
+
 
 
 function App() {
@@ -81,12 +84,14 @@ function App() {
           <Route path="/malerts" element={<MAlerts />} /> 
           <Route path="/mlogs" element={<MLogs />} /> 
 
-          <Route path="/stockkeeperdb" element={<StockKeeperdb />} /> 
+          <Route path="/stockdb" element={<StockKeeperdb />} /> 
           <Route path="/sinventory" element={<SInventory />} /> 
           <Route path="/salerts" element={<SAlerts />} /> 
           <Route path="/slogs" element={<SLogs />} /> 
 
           <Route path="/viewerdb" element={<Viewerdb />} /> 
+          <Route path="/vinventory" element={<VInventory />} /> 
+          <Route path="/vlogs" element={<VLogs />} /> 
 
 
 

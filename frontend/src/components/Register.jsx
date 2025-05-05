@@ -115,7 +115,6 @@ const Register = () => {
                   className="w-full p-3 bg-blue-800 border border-blue-600 rounded-lg text-white focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                   required
                 >
-                  <option value="Admin">Admin</option>
                   <option value="Manager">Manager</option>
                   <option value="Stock Keeper">Stock Keeper</option>
                   <option value="Viewer">Viewer</option>

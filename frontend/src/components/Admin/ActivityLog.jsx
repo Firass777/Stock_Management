@@ -71,7 +71,7 @@ function ActivityLog() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar - Unchanged */}
+      {/* Sidebar */}
       <aside className="w-64 bg-gray-900 text-gray-100 flex flex-col fixed h-full">
         <div className="p-6 border-b border-gray-800">
           <h1 className="text-2xl font-bold flex items-center">
@@ -118,17 +118,21 @@ function ActivityLog() {
                 Activity Logs
               </Link>
             </li>
+            <li>
+              <Link
+                to="/"
+                onClick={() => localStorage.clear()}
+                className="flex items-center p-3 rounded-lg hover:bg-emerald-800 text-red-400"
+              >
+                <FaSignOutAlt className="mr-3" />
+                Logout
+              </Link>
+            </li>
           </ul>
         </nav>
-        <div className="p-4 border-t border-gray-800">
-          <Link to="/logout" className="flex items-center p-3 rounded-lg hover:bg-gray-800 text-red-400 transition">
-            <FaSignOutAlt className="mr-3" />
-            Logout
-          </Link>
-        </div>
       </aside>
 
-      {/* Main Content - Redesigned */}
+      {/* Main Content */}
       <main className="flex-1 ml-64 p-8 overflow-auto">
         <div className="max-w-6xl mx-auto">
           {/* Header */}

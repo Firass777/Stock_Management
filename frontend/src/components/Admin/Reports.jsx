@@ -259,14 +259,18 @@ function Reports() {
                   Activity Logs
                 </Link>
               </li>
+              <li>
+              <Link
+                to="/"
+                onClick={() => localStorage.clear()}
+                className="flex items-center p-3 rounded-lg hover:bg-emerald-800 text-red-400"
+              >
+                <FaSignOutAlt className="mr-3" />
+                Logout
+              </Link>
+            </li>
             </ul>
           </nav>
-          <div className="p-4 border-t border-gray-800">
-            <Link to="/logout" className="flex items-center p-3 rounded-lg hover:bg-gray-800 text-red-400">
-              <FaSignOutAlt className="mr-3" />
-              Logout
-            </Link>
-          </div>
         </aside>
 
         <main className="flex-1 p-6 overflow-auto min-h-screen">

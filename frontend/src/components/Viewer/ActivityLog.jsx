@@ -105,13 +105,17 @@ function SLogs() {
               </Link>
             </li>
           </ul>
+          <li>
+              <Link
+                to="/"
+                onClick={() => localStorage.clear()}
+                className="flex items-center p-3 rounded-lg hover:bg-emerald-800 text-red-400"
+              >
+                <FaSignOutAlt className="mr-3" />
+                Logout
+              </Link>
+            </li>
         </nav>
-        <div className="p-4 border-t border-blue-800">
-          <Link to="/logout" className="flex items-center p-3 rounded-lg hover:bg-blue-800 text-red-400">
-            <FaSignOutAlt className="mr-3" />
-            Logout
-          </Link>
-        </div>
       </aside>
 
       <main className="flex-1 pl-64 p-8">

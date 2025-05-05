@@ -61,8 +61,8 @@ function Alerts() {
       if (response.data.success) {
         setStats({
           totalCritical: response.data.data.lowStockItems || 0,
-          mostCriticalCategory: 'Electronics', // Replace with actual data from API if available
-          lowestStockItem: 'Smartphone' // Replace with actual data from API if available
+          mostCriticalCategory: 'Electronics', 
+          lowestStockItem: 'Smartphone' 
         });
       }
     } catch (error) {
@@ -132,14 +132,18 @@ function Alerts() {
                   Activity Logs
                 </Link>
               </li>
+              <li>
+              <Link
+                to="/"
+                onClick={() => localStorage.clear()}
+                className="flex items-center p-3 rounded-lg hover:bg-emerald-800 text-red-400"
+              >
+                <FaSignOutAlt className="mr-3" />
+                Logout
+              </Link>
+            </li>
             </ul>
           </nav>
-          <div className="p-4 border-t border-gray-800">
-            <Link to="/logout" className="flex items-center p-3 rounded-lg hover:bg-gray-800 text-red-400">
-              <FaSignOutAlt className="mr-3" />
-              Logout
-            </Link>
-          </div>
         </aside>
 
         <main className="flex-1 p-6 overflow-auto min-h-screen">

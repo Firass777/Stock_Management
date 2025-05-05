@@ -82,7 +82,7 @@ function MLogs() {
         <nav className="flex-1 overflow-y-auto">
           <ul className="p-4 space-y-2">
             <li>
-              <Link to="/managerdb" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
+              <Link to="/mangerdb" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
                 <FaBoxes className="mr-3" />
                 Dashboard
               </Link>

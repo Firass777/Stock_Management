@@ -3,8 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { 
   FaBoxes, 
-  FaClipboardList, 
-  FaChartLine, 
   FaBell, 
   FaHistory,
   FaSignOutAlt,
@@ -15,14 +13,13 @@ import {
   FaEdit, 
   FaTrash,
   FaFilter,
-  FaSlidersH,
   FaExclamationTriangle,
   FaCheckCircle,
   FaBoxOpen,
-  FaChevronRight
+  FaClipboardList
 } from 'react-icons/fa';
 
-const MInventory = () => {
+const SInventory = () => {
   const [items, setItems] = useState([]);
   const [categoryLevels, setCategoryLevels] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -362,24 +359,24 @@ const MInventory = () => {
   const ItemModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-        <div className="flex justify-between items-center border-b p-4">
-          <h3 className="text-lg font-semibold">{isEditing ? 'Edit Item' : 'Add New Item'}</h3>
+        <div className="flex justify-between items-center border-b border-indigo-100 p-4">
+          <h3 className="text-lg font-semibold text-indigo-900">{isEditing ? 'Edit Item' : 'Add New Item'}</h3>
           <button 
             onClick={() => setShowItemModal(false)}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-indigo-500 hover:text-indigo-700"
           >
             <FaTimes />
           </button>
         </div>
-        <form onSubmit={handleItemSubmit} className="p-4">
+        <div className="p-4">
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Item Name</label>
+            <label className="block text-sm font-medium text-indigo-900 mb-1">Item Name</label>
             <input
               type="text"
               name="name"
               value={itemFormData.name}
               onChange={handleItemInputChange}
-              className={`w-full p-2 border rounded ${formErrors.name ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border rounded ${formErrors.name ? 'border-red-500' : 'border-indigo-200'}`}
               required
               placeholder="Enter item name"
             />
@@ -388,12 +385,12 @@ const MInventory = () => {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Category</label>
+            <label className="block text-sm font-medium text-indigo-900 mb-1">Category</label>
             <select
               name="category"
               value={itemFormData.category}
               onChange={handleItemInputChange}
-              className={`w-full p-2 border rounded ${formErrors.category ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border rounded ${formErrors.category ? 'border-red-500' : 'border-indigo-200'}`}
               required
             >
               <option value="">Select Category</option>
@@ -406,13 +403,13 @@ const MInventory = () => {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Quantity</label>
+            <label className="block text-sm font-medium text-indigo-900 mb-1">Quantity</label>
             <input
               type="number"
               name="quantity"
               value={itemFormData.quantity}
               onChange={handleItemInputChange}
-              className={`w-full p-2 border rounded ${formErrors.quantity ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border rounded ${formErrors.quantity ? 'border-red-500' : 'border-indigo-200'}`}
               required
               min="0"
               placeholder="Enter quantity"
@@ -422,13 +419,13 @@ const MInventory = () => {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Unit Price ($)</label>
+            <label className="block text-sm font-medium text-indigo-900 mb-1">Unit Price ($)</label>
             <input
               type="number"
               name="unit_price"
               value={itemFormData.unit_price}
               onChange={handleItemInputChange}
-              className={`w-full p-2 border rounded ${formErrors.unit_price ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border rounded ${formErrors.unit_price ? 'border-red-500' : 'border-indigo-200'}`}
               required
               min="0"
               step="0.01"
@@ -442,18 +439,19 @@ const MInventory = () => {
             <button
               type="button"
               onClick={() => setShowItemModal(false)}
-              className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 transition"
+              className="px-4 py-2 border border-indigo-200 rounded text-indigo-700 hover:bg-indigo-50 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700 transition"
+              onClick={handleItemSubmit}
+              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
             >
               {isEditing ? 'Update Item' : 'Add Item'}
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
@@ -461,25 +459,25 @@ const MInventory = () => {
   const LevelModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-        <div className="flex justify-between items-center border-b p-4">
-          <h3 className="text-lg font-semibold">{isEditing ? 'Edit Stock Levels' : 'Add New Stock Levels'}</h3>
+        <div className="flex justify-between items-center border-b border-indigo-100 p-4">
+          <h3 className="text-lg font-semibold text-indigo-900">{isEditing ? 'Edit Stock Levels' : 'Add New Stock Levels'}</h3>
           <button 
             onClick={() => setShowLevelModal(false)}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-indigo-500 hover:text-indigo-700"
           >
             <FaTimes />
           </button>
         </div>
-        <form onSubmit={handleLevelSubmit} className="p-4">
+        <div className="p-4">
           {!isEditing && (
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Category</label>
+              <label className="block text-sm font-medium text-indigo-900 mb-1">Category</label>
               <input
                 type="text"
                 name="category"
                 value={levelFormData.category}
                 onChange={handleLevelInputChange}
-                className={`w-full p-2 border rounded ${formErrors.category ? 'border-red-500' : 'border-gray-300'}`}
+                className={`w-full p-2 border rounded ${formErrors.category ? 'border-red-500' : 'border-indigo-200'}`}
                 required
                 placeholder="Enter category name"
               />
@@ -489,13 +487,13 @@ const MInventory = () => {
             </div>
           )}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Minimum Stock Level</label>
+            <label className="block text-sm font-medium text-indigo-900 mb-1">Minimum Stock Level</label>
             <input
               type="number"
               name="min_stock_level"
               value={levelFormData.min_stock_level}
               onChange={handleLevelInputChange}
-              className={`w-full p-2 border rounded ${formErrors.min_stock_level ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border rounded ${formErrors.min_stock_level ? 'border-red-500' : 'border-indigo-200'}`}
               required
               min="0"
               placeholder="Enter minimum level"
@@ -505,13 +503,13 @@ const MInventory = () => {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Maximum Stock Level</label>
+            <label className="block text-sm font-medium text-indigo-900 mb-1">Maximum Stock Level</label>
             <input
               type="number"
               name="max_stock_level"
               value={levelFormData.max_stock_level}
               onChange={handleLevelInputChange}
-              className={`w-full p-2 border rounded ${formErrors.max_stock_level ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full p-2 border rounded ${formErrors.max_stock_level ? 'border-red-500' : 'border-indigo-200'}`}
               required
               min="0"
               placeholder="Enter maximum level"
@@ -524,100 +522,93 @@ const MInventory = () => {
             <button
               type="button"
               onClick={() => setShowLevelModal(false)}
-              className="px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-100 transition"
+              className="px-4 py-2 border border-indigo-200 rounded text-indigo-700 hover:bg-indigo-50 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700 transition"
+              onClick={handleLevelSubmit}
+              className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
             >
               {isEditing ? 'Update Levels' : 'Add Levels'}
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
 
   const LoadingSpinner = () => (
     <div className="flex justify-center items-center py-8">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
     </div>
   );
 
   return (
-    <div className="flex min-h-screen bg-emerald-50">
-      {/* Sidebar */}
-      <aside className="w-64 bg-emerald-900 text-emerald-100 flex flex-col fixed h-full">
-        <div className="p-6 border-b border-emerald-800">
+    <div className="flex min-h-screen bg-indigo-50">
+      <aside className="fixed w-64 h-screen bg-indigo-900 text-indigo-100 flex flex-col">
+        <div className="p-6 border-b border-indigo-800">
           <h1 className="text-2xl font-bold flex items-center">
             <FaWarehouse className="mr-2" />
             StockMaster
           </h1>
-          <p className="text-sm text-emerald-400 mt-1">Manager Dashboard</p>
+          <p className="text-sm text-indigo-400 mt-1">Stock Keeper Dashboard</p>
         </div>
         <nav className="flex-1 overflow-y-auto">
           <ul className="p-4 space-y-2">
             <li>
-              <Link to="/mangerdb" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
+              <Link to="/stockdb" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
                 <FaBoxes className="mr-3" />
                 Dashboard
               </Link>
             </li>
             <li>
-              <Link to="/minventory" className="flex items-center p-3 rounded-lg bg-emerald-700 text-white">
+              <Link to="/inventory" className="flex items-center p-3 rounded-lg bg-indigo-700 text-white">
                 <FaClipboardList className="mr-3" />
                 Inventory
               </Link>
             </li>
             <li>
-              <Link to="/mreports" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
-                <FaChartLine className="mr-3" />
-                Reports
-              </Link>
-            </li>
-            <li>
-              <Link to="/malerts" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
+              <Link to="/alerts" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
                 <FaBell className="mr-3" />
                 Alerts
               </Link>
             </li>
             <li>
-              <Link to="/mlogs" className="flex items-center p-3 rounded-lg hover:bg-emerald-800">
+              <Link to="/logs" className="flex items-center p-3 rounded-lg hover:bg-indigo-800">
                 <FaHistory className="mr-3" />
                 Activity Logs
               </Link>
             </li>
           </ul>
         </nav>
-        <div className="p-4 border-t border-emerald-800">
-          <Link to="/logout" className="flex items-center p-3 rounded-lg hover:bg-emerald-800 text-red-400">
+        <div className="p-4 border-t border-indigo-800">
+          <Link to="/logout" className="flex items-center p-3 rounded-lg hover:bg-indigo-800 text-red-400">
             <FaSignOutAlt className="mr-3" />
             Logout
           </Link>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 ml-64 p-8">
-        <div className="flex justify-between items-center mb-8">
+      <main className="flex-1 pl-64 p-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-emerald-900">Inventory Management</h1>
-            <p className="text-emerald-600">Manage stock items and track inventory levels</p>
+            <h1 className="text-3xl font-bold text-indigo-900">Inventory Management</h1>
+            <p className="text-indigo-600 mt-1">Control and monitor stock levels</p>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 mt-4 md:mt-0">
             {activeTab === 'inventory' ? (
               <button
                 onClick={openAddItemModal}
-                className="flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+                className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
               >
                 <FaPlus className="mr-2" /> Add Item
               </button>
             ) : (
               <button
                 onClick={openAddLevelModal}
-                className="flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition"
+                className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
               >
                 <FaPlus className="mr-2" /> Add Levels
               </button>
@@ -625,59 +616,54 @@ const MInventory = () => {
           </div>
         </div>
 
-        <div className="flex border-b border-emerald-200 mb-6">
+        <div className="flex border-b border-indigo-200 mb-6">
           <button
             onClick={() => setActiveTab('inventory')}
-            className={`px-4 py-2 font-medium ${activeTab === 'inventory' ? 'text-emerald-600 border-b-2 border-emerald-600' : 'text-emerald-500 hover:text-emerald-700'} transition`}
+            className={`px-4 py-2 font-medium ${activeTab === 'inventory' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-indigo-500 hover:text-indigo-700'} transition`}
           >
             Inventory Items
           </button>
           <button
             onClick={() => setActiveTab('levels')}
-            className={`px-4 py-2 font-medium ${activeTab === 'levels' ? 'text-emerald-600 border-b-2 border-emerald-600' : 'text-emerald-500 hover:text-emerald-700'} transition`}
+            className={`px-4 py-2 font-medium ${activeTab === 'levels' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-indigo-500 hover:text-indigo-700'} transition`}
           >
-            <FaSlidersH className="inline mr-2" />
             Stock Levels
           </button>
         </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex justify-between items-center">
+            <span>{error}</span>
             <button 
               onClick={() => setError(null)} 
-              className="float-right font-bold"
+              className="text-red-700 hover:text-red-900"
             >
-              &times;
+              ×
             </button>
           </div>
         )}
 
         {activeTab === 'inventory' ? (
           <>
-            <div className="bg-white p-4 rounded-xl shadow-sm border border-emerald-100 mb-6">
+            <div className="bg-white p-4 rounded-xl shadow-sm border border-indigo-100 mb-6">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="relative flex-1">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaSearch className="text-emerald-400" />
-                  </div>
+                  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-400" />
                   <input
                     type="text"
                     value={searchTerm}
                     onChange={handleSearch}
-                    className="pl-10 pr-4 py-2 w-full border border-emerald-200 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 transition"
-                    placeholder="Search by item name or category..."
+                    className="pl-10 pr-4 py-2 w-full border border-indigo-200 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition"
+                    placeholder="Search items..."
                   />
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaFilter className="text-emerald-400" />
-                    </div>
+                    <FaFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-400" />
                     <select
                       value={categoryFilter}
                       onChange={handleCategoryFilter}
-                      className="pl-10 pr-4 py-2 border border-emerald-200 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 transition"
+                      className="pl-10 pr-4 py-2 border border-indigo-200 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition"
                     >
                       <option value="">All Categories</option>
                       {categories.map(category => (
@@ -688,7 +674,7 @@ const MInventory = () => {
                   <select
                     value={pagination.per_page}
                     onChange={handlePerPageChange}
-                    className="border border-emerald-200 rounded-lg px-3 py-2 focus:ring-emerald-500 focus:border-emerald-500 transition"
+                    className="border border-indigo-200 rounded-lg px-3 py-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                   >
                     <option value="5">5 per page</option>
                     <option value="10">10 per page</option>
@@ -703,77 +689,75 @@ const MInventory = () => {
               <LoadingSpinner />
             ) : (
               <>
-                <div className="bg-white rounded-xl shadow-sm border border-emerald-100 overflow-hidden mb-6">
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-emerald-200">
-                      <thead className="bg-emerald-50">
+                <div className="bg-white rounded-xl shadow-sm border border-indigo-100 overflow-hidden mb-6">
+                  <table className="min-w-full divide-y divide-indigo-200">
+                    <thead className="bg-indigo-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Item</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Category</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Quantity</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Unit Price</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Total Value</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-indigo-200">
+                      {items.length > 0 ? (
+                        items.map((item) => {
+                          const status = getStockStatus(item);
+                          return (
+                            <tr key={item.id} className="hover:bg-indigo-50">
+                              <td className="px-6 py-4 whitespace-nowrap text-indigo-900">{item.name}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-indigo-900">{item.category}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-indigo-900">{item.quantity}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-indigo-900">${Number(item.unit_price).toFixed(2)}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-indigo-900">${(item.quantity * item.unit_price).toFixed(2)}</td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className={`px-2 py-1 text-xs rounded-full ${status.class}`}>
+                                  {status.icon} {status.status}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <button
+                                  onClick={() => openEditItemModal(item)}
+                                  className="text-indigo-600 hover:text-indigo-900 mr-4 transition"
+                                  title="Edit"
+                                >
+                                  <FaEdit />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteItem(item.id)}
+                                  className="text-red-600 hover:text-red-900 transition"
+                                  title="Delete"
+                                >
+                                  <FaTrash />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
                         <tr>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Item Name</th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Category</th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Quantity</th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Unit Price</th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Total Value</th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Status</th>
-                          <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Actions</th>
+                          <td colSpan="7" className="px-6 py-4 text-center text-indigo-500">
+                            No items found
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-emerald-200">
-                        {items.length > 0 ? (
-                          items.map((item) => {
-                            const status = getStockStatus(item);
-                            return (
-                              <tr key={item.id} className="hover:bg-emerald-50">
-                                <td className="px-6 py-4 whitespace-nowrap text-emerald-900">{item.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-emerald-900">{item.category}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-emerald-900">{item.quantity}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-emerald-900">${Number(item.unit_price).toFixed(2)}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-emerald-900">${(item.quantity * item.unit_price).toFixed(2)}</td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <span className={`px-2 py-1 text-xs rounded-full ${status.class}`}>
-                                    {status.icon} {status.status}
-                                  </span>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <button
-                                    onClick={() => openEditItemModal(item)}
-                                    className="text-emerald-600 hover:text-emerald-900 mr-4 transition"
-                                    title="Edit"
-                                  >
-                                    <FaEdit />
-                                  </button>
-                                  <button
-                                    onClick={() => handleDeleteItem(item.id)}
-                                    className="text-red-600 hover:text-red-900 transition"
-                                    title="Delete"
-                                  >
-                                    <FaTrash />
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <tr>
-                            <td colSpan="7" className="px-6 py-4 text-center text-emerald-500">
-                              No items found
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+                      )}
+                    </tbody>
+                  </table>
                 </div>
 
                 {pagination.total > 0 && (
-                  <div className="flex flex-col md:flex-row items-center justify-between bg-white px-6 py-3 rounded-xl shadow-sm border border-emerald-100">
-                    <div className="text-sm text-emerald-700 mb-2 md:mb-0">
+                  <div className="flex flex-col md:flex-row items-center justify-between bg-white px-6 py-3 rounded-xl shadow-sm border border-indigo-100">
+                    <div className="text-sm text-indigo-700 mb-2 md:mb-0">
                       Showing {pagination.from} to {pagination.to} of {pagination.total} items
                     </div>
                     <div className="flex space-x-1">
                       <button
                         onClick={() => handlePageChange(pagination.current_page - 1)}
                         disabled={pagination.current_page === 1}
-                        className="px-3 py-1 border border-emerald-200 rounded disabled:opacity-50 hover:bg-emerald-50 transition"
+                        className="px-3 py-1 border border-indigo-200 rounded disabled:opacity-50 hover:bg-indigo-50 transition"
                       >
                         Previous
                       </button>
@@ -794,8 +778,8 @@ const MInventory = () => {
                             onClick={() => handlePageChange(pageNum)}
                             className={`px-3 py-1 border rounded transition ${
                               pagination.current_page === pageNum 
-                                ? 'bg-emerald-600 text-white border-emerald-600' 
-                                : 'border-emerald-200 hover:bg-emerald-50'
+                                ? 'bg-indigo-600 text-white border-indigo-600' 
+                                : 'border-indigo-200 hover:bg-indigo-50'
                             }`}
                           >
                             {pageNum}
@@ -805,7 +789,7 @@ const MInventory = () => {
                       <button
                         onClick={() => handlePageChange(pagination.current_page + 1)}
                         disabled={pagination.current_page === pagination.last_page}
-                        className="px-3 py-1 border border-emerald-200 rounded disabled:opacity-50 hover:bg-emerald-50 transition"
+                        className="px-3 py-1 border border-indigo-200 rounded disabled:opacity-50 hover:bg-indigo-50 transition"
                       >
                         Next
                       </button>
@@ -820,52 +804,50 @@ const MInventory = () => {
             {loading.levels ? (
               <LoadingSpinner />
             ) : (
-              <div className="bg-white rounded-xl shadow-sm border border-emerald-100 overflow-hidden mb-6">
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-emerald-200">
-                    <thead className="bg-emerald-50">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Category</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Min Stock Level</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Max Stock Level</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-emerald-500 uppercase tracking-wider">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-emerald-200">
-                      {categoryLevels.length > 0 ? (
-                        categoryLevels.map((level) => (
-                          <tr key={level.id} className="hover:bg-emerald-50">
-                            <td className="px-6 py-4 whitespace-nowrap text-emerald-900">{level.category}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-emerald-900">{level.min_stock_level}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-emerald-900">{level.max_stock_level}</td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <button
-                                onClick={() => openEditLevelModal(level)}
-                                className="text-emerald-600 hover:text-emerald-900 mr-4 transition"
-                                title="Edit"
-                              >
-                                <FaEdit />
-                              </button>
-                              <button
-                                onClick={() => handleDeleteLevel(level.id)}
-                                className="text-red-600 hover:text-red-900 transition"
-                                title="Delete"
-                              >
-                                <FaTrash />
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="4" className="px-6 py-4 text-center text-emerald-500">
-                            No stock levels found
+              <div className="bg-white rounded-xl shadow-sm border border-indigo-100 overflow-hidden mb-6">
+                <table className="min-w-full divide-y divide-indigo-200">
+                  <thead className="bg-indigo-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Category</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Min Stock</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Max Stock</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-indigo-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-indigo-200">
+                    {categoryLevels.length > 0 ? (
+                      categoryLevels.map((level) => (
+                        <tr key={level.id} className="hover:bg-indigo-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-indigo-900">{level.category}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-indigo-900">{level.min_stock_level}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-indigo-900">{level.max_stock_level}</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <button
+                              onClick={() => openEditLevelModal(level)}
+                              className="text-indigo-600 hover:text-indigo-900 mr-4 transition"
+                              title="Edit"
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteLevel(level.id)}
+                              className="text-red-600 hover:text-red-900 transition"
+                              title="Delete"
+                            >
+                              <FaTrash />
+                            </button>
                           </td>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="4" className="px-6 py-4 text-center text-indigo-500">
+                          No stock levels found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
             )}
           </>
@@ -878,4 +860,4 @@ const MInventory = () => {
   );
 };
 
-export default MInventory;
+export default SInventory;

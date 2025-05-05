@@ -137,7 +137,7 @@ function Managerdb() {
         <nav className="flex-1 overflow-y-auto">
           <ul className="p-4 space-y-2">
             <li>
-              <Link to="/managerdb" className="flex items-center p-3 rounded-lg bg-emerald-700 text-white">
+              <Link to="/mangerdb" className="flex items-center p-3 rounded-lg bg-emerald-700 text-white">
                 <FaBoxes className="mr-3" />
                 Dashboard
               </Link>
